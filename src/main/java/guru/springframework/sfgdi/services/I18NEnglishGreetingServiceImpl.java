@@ -9,8 +9,10 @@ spring.profiles.active property in the resources/application.properties.
 If no profile is active Spring will ignore the @Profile annotations and load all beans into the context which can cause
 issue where Spring is not able to determine which bean to inject.  If a profile is active then only beans with that
 profile (or no profile) will be loaded into the context for the injection to choose from.
+The default profile can be used to set a default!  In the event that no profile is active then the default profile will
+be loaded instead.  However to set a list the values must be in {}.
  */
-@Profile("EN")
+@Profile({"EN", "default"})
 //Here we label the service to allow a @Qualifier annotation to choose between a subset of the possible beans.
 @Service("i18nService")
 public class I18NEnglishGreetingServiceImpl implements GreetingService {
