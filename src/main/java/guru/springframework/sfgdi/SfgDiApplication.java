@@ -1,5 +1,6 @@
 package guru.springframework.sfgdi;
 
+import guru.springframework.sfgdi.config.SfgConfiguration;
 import guru.springframework.sfgdi.controllers.*;
 import guru.springframework.sfgdi.datasource.FakeDataSource;
 import org.springframework.boot.SpringApplication;
@@ -50,9 +51,16 @@ public class SfgDiApplication {
         System.out.println(constructorInjectedController.getGreeting());
 
         FakeDataSource fakeDataSource = ctx.getBean(FakeDataSource.class);
+        System.out.println("Properties passed via @Value annotations in the GreetingsServiceConfig class.");
         System.out.println(fakeDataSource.getUserName());
         System.out.println(fakeDataSource.getPassword());
         System.out.println(fakeDataSource.getJdbcUrl());
+
+        SfgConfiguration sfgConfiguration = ctx.getBean(SfgConfiguration.class);
+        System.out.println("Properties passed via @ConfigurationProperties annotation in the SfgConfiguration class.");
+        System.out.println(sfgConfiguration.getUserName());
+        System.out.println(sfgConfiguration.getPassword());
+        System.out.println(sfgConfiguration.getJdbcUrl());
     }
 
 }

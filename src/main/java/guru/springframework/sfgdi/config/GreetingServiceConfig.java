@@ -15,6 +15,12 @@ beans for use in the Spring context.
 /*
 The @PropertySource annotation brings in a properties file.  With Spring the resources folder is added to the classpath
 so this path style takes advantage of that.
+Note that the Spring boot wrapper for "true" Spring brings in the application.properties and its derivatives by default
+so if all your properties are in those files there is no need to bring them in with this annotation.
+When using the derivatives the name is as follows "application-<profile_name>.properties" these will be used when the
+named profile is active.  If multiple files are selected in this way they appear to be applied in the order the profiles
+are listed.  Note that spring.profiles.active, like any other property can be set from the command line, however bear in
+mind that doing this will OVERWRITE it rather than add to it.
  */
 @PropertySource("classpath:datasource.properties")
 public class GreetingServiceConfig {
