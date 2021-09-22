@@ -40,6 +40,14 @@ public class GreetingServiceConfig {
     @PropertySource annotation.  It will then apply it to the variable that follows.  Note the use of the ${} that
     surrounds the property name.  This is necessary otherwise the variables will be set to the contents of the String
     rather than having the String evaluated and the property returned.
+    The @Value annotation will also pick up environment variables with the same name as the property but with the "."
+    replaced with a "_", for example "GURU_USERNAME" although it isn't case-sensitive.
+    It will also pick up command line arguments with the same name proceeded by "--", for example "--guru.password".
+    The order that properties are set is:
+      From a file
+      From the environment
+      From the command line
+    With entries further down this list overwriting entries from higher up with the same name.
      */
     FakeDataSource fakeDataSource(@Value("${guru.userName}") String userName,
                                   @Value("${guru.password}") String password,
