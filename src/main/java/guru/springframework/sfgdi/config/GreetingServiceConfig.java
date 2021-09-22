@@ -1,14 +1,22 @@
 package guru.springframework.sfgdi.config;
 
+import guru.springframework.sfgdi.datasource.FakeDataSource;
 import guru.springframework.sfgdi.services.ConstructorGreetingServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 /*
 The @Configuration annotation indicates that this class contains some configuration methods which show how to configure
 beans for use in the Spring context.
  */
 @Configuration
+/*
+The @PropertySource annotation brings in a properties file.  With Spring the resources folder is added to the classpath
+so this path style takes advantage of that.
+ */
+@PropertySource("classpath:datasource.properties")
 public class GreetingServiceConfig {
     /*
     The @Bean annotation shows that the method will return a configured bean for use in the Spring context.  This is
@@ -24,5 +32,23 @@ public class GreetingServiceConfig {
     @Bean
     ConstructorGreetingServiceImpl constructorGreetingServiceImpl() {
         return new ConstructorGreetingServiceImpl();
+    }
+
+    @Bean
+    /*
+    The @Value annotation allows us to get a property from one of the properties files included in the class with the
+    @PropertySource annotation.  It will then apply it to the variable that follows.  Note the use of the ${} that
+    surrounds the property name.  This is necessary otherwise the variables will be set to the contents of the String
+    rather than having the String evaluated and the property returned.
+     */
+    FakeDataSource fakeDataSource(@Value("${guru.userName}") String userName,
+                                  @Value("${guru.password}") String password,
+                                  @Value("${guru.jdbcUrl}") String jdbcUrl) {
+        FakeDataSource fakeDataSource = new FakeDataSource();
+        fakeDataSource.setUserName(userName);
+        fakeDataSource.setPassword(password);
+        fakeDataSource.setJdbcUrl(jdbcUrl);
+
+        return fakeDataSource;
     }
 }
